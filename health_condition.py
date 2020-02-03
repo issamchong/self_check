@@ -7,6 +7,7 @@ from PIL import Image , ImageEnhance , ImageDraw,ImageFont
 from matplotlib import style
 from sklearn.cluster import KMeans
 from scipy import misc
+import time
 #f = misc.face()
 #misc.imsave('face.png', f) # uses the Image module (PIL)
 #plt.imshow(f)
@@ -74,15 +75,22 @@ def cam_capture():
     color=cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     R,G,B=cv2.split(color)
     cv2.imwrite("Red.JPG",R)
-    Redonly=R.reshape(R.shape[0]*R.shape[1],1)
-
+    Redonly=R.reshape(R.shape[0]*R.shape[1],1) #convert to one single array 
+    quantity=[]
+    for i in Redonly:
+      if i >=100:
+        quantity.append(i)
+    if len(quantity) > R.shape[0]:
+      cv2.imwrite("tongue.jpg",frame)
+    else:
+      time.sleep(1)
 
     # Display the resulting frame
-    cv2.imshow('frame', frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break 
-   cap.release()
-   cv2.destroyAllWindows()    
+    #cv2.imshow('frame', frame)
+    #if cv2.waitKey(1) & 0xFF == ord('q'):
+        #break 
+   #cap.release()
+   #cv2.destroyAllWindows()    
 def repot():
  fileimage="masked_tongue.jpg"
  for i in range(2):  # repeat all process twice in order to get best result
